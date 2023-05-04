@@ -8,50 +8,83 @@
 #01===================================================================================
 # Feladat: Karakterek száma a fájlban.
 # Írj egy függvényt karakterek_szama néven amely paraméterként egy fájlnevet kap és visszatér a fájlban levő karakterek számával. ('\n karakterekkel együtt')
-
-
-#assert karakterek_szama("lorem.txt") == 18047
+def karakterek_szama(faljnev):
+    with open(faljnev, 'r') as falj:
+        char = falj.read()
+        falj.close()
+        karakterek_szama = len(char)
+        return karakterek_szama
+        
+assert karakterek_szama("lorem.txt") == 18047
 
 #02-------------------------------------------------------------    
 # Feladat: Szavak száma a fájlban.
 # Írj egy függvényt szavak_szama néven amely paraméterként egy fájlnevet kap és visszatér a fájlban levő szavak számával.
+def szavak_szama(faljnev):
+    with open(faljnev, 'r') as falj:
+        char = falj.read()
+        szavak_szama = len(char.split())
+        return szavak_szama
 
-
-#assert szavak_szama("lorem.txt") == 2304
+assert szavak_szama("lorem.txt") == 2304
 
 #03-------------------------------------------------------------  
 # Feladat: Sorok száma a fájlban. 
 # A sorok_szama(fname) függvény visszatér a  fájlban levő sorok számával.   
+def sorok_szama(faljnev):
+    with open(faljnev, 'r') as falj:
+        sorok = falj.readlines()
+        return len(sorok)
 
-
-#assert sorok_szama("lorem.txt") == 82
+assert sorok_szama("lorem.txt") == 82
 
 #04-------------------------------------------------------------
 # Feladat: r betük száma a fájlban. 
 # Az r_betuk_szama(fname) függvény visszatér a  fájlban levő 'r' betük számával.
+def r_betuk_szama(faljnev):
+    with open(faljnev, 'r') as falj:
+        betuk = falj.read()
+        r_betuk = betuk.count('r')
+        return r_betuk
 
-
-#assert r_betuk_szama("lorem.txt") == 790 
+assert r_betuk_szama("lorem.txt") == 790 
 
 #05.-------------------------------------------------------------        
 # Feladat: lorem szavak száma a fájlban. 
 # 5. A lorem_szavak_szama(fname) függvény visszatér a  fájlban levő "lorem" szavak számával.
-
-
-#assert lorem_szavak_szama("lorem.txt") == 27 
+def lorem_szavak_szama(faljnev):
+    with open(faljnev, 'r') as falj:
+        szavak = falj.read()
+        szavak_szama = szavak.count('lorem')
+        return szavak_szama
+        
+assert lorem_szavak_szama("lorem.txt") == 27 
 
 #06-------------------------------------------------------------    
 # Feladat: A leggyakoribb karakter a fájlban. 
 # A leggyakoribb_karakter(fname) függvény visszatér a  fájlban leggyakrabban előforduló karakterrel.
+def leggyakoribb_karakter(faljnev):
+    with open(faljnev, 'r') as falj:
+        szoveg = falj.read()
+        karakterek = list(szoveg)
+        leggyakoribb = max(set(karakterek), key = karakterek.count)
+        return leggyakoribb
 
-
-#assert leggyakoribb_karakter("lorem.txt") ==  "i"
+assert leggyakoribb_karakter("lorem.txt") ==  "i"
 
 #07------------------------------------------------------------- 
 # Feladat: A leghosszabb sor hossza a fájlban. 
 # A leghosszabb_sor_hossza(fname) függvény visszatér a  fájlban levő leghosszabb sor hosszával.
-
-#assert leghosszabb_sor_hossza("lorem.txt") == 304
+def leghosszabb_sor_hossza(faljnev):
+    with open(faljnev, 'r') as falj:
+        max_sor = 0
+        for sor in falj:
+            hossz = len(sor)
+            if hossz > max_sor:
+                max_sor = hossz
+    return max_sor
+        
+assert leghosszabb_sor_hossza("lorem.txt") == 304
 
 #08-------------------------------------------------------------
 # Feladat: Téglalap osztály definiálása. [Objektumorientált programozás]
@@ -59,10 +92,19 @@
 # A Teglalap osztály lehetővé teszi a téglalap oldalhosszúságainak tárolását.
 # A Teglalap osztály rendelkezik egy kerulet() nevü metódussal, amely az osztály segítségével létrehozott objektum metódusaként visszaadja az adott objektum kerületét.
 # A Teglalap osztály rendelkezik egy terulet() nevü metódussal, amely az osztály segítségével létrehozott objektum metódusaként visszaadja az adott objektum területét.
+class Teglalap:
+    def __init__(self, a,b):
+        self.a = a
+        self.b = b
 
+    def kerulet(self):
+        return 2 * (self.a + self.b)
 
-#assert Teglalap(3, 4).kerulet() == 14
-#assert Teglalap(3, 4).terulet() == 12
+    def terulet(self):
+        return self.a * self.b
+
+assert Teglalap(3, 4).kerulet() == 14
+assert Teglalap(3, 4).terulet() == 12
 
 #09-------------------------------------------------------------
 # Feladat: Négyzet osztály definiálása. [Objektumorientált programozás]
@@ -70,10 +112,18 @@
 # A Negyzet osztály lehetővé teszi a negyzet oldalhosszúságának tárolását.
 # A Negyzet osztály rendelkezik egy kerulet() nevü metódussal, amely az osztály segítségével létrehozott objektum metódusaként visszaadja az adott objektum kerületét.
 # A Negyzet osztály rendelkezik egy terulet() nevü metódussal, amely az osztály segítségével létrehozott objektum metódusaként visszaadja az adott objektum területét.
+class Negyzet:
+    def __init__(self, a):
+        self.a = a
 
+    def kerulet(self):
+        return 4*self.a
 
-#assert Negyzet(3).kerulet() == 12
-#assert Negyzet(3).terulet() == 9
+    def terulet(self):
+        return self.a**2
+
+assert Negyzet(3).kerulet() == 12
+assert Negyzet(3).terulet() == 9
 
 #10-------------------------------------------------------------
 # Feladat: Kocka osztály definiálása. [Objektumorientált programozás]
@@ -81,18 +131,28 @@
 # A Kocka osztály lehetővé teszi a kocka oldalhosszúságának tárolását.
 # A Kocka osztály rendelkezik egy tefogat() nevü metódussal, amely az osztály segítségével létrehozott objektum metódusaként visszaadja az adott objektum térfogatát.
 # A Kocka osztály rendelkezik egy felszin() nevü metódussal, amely az osztály segítségével létrehozott objektum metódusaként visszaadja az adott objektum felszínét.
+class Kocka:
+    def __init__(self, a):
+        self.a = a
 
+    def terfogat(self):
+        return self.a**3
 
-#assert Kocka(3).terfogat() == 27
-#assert Kocka(3).felszin() == 54
+    def felszin(self):
+        return 6 * self.a**2
+
+assert Kocka(3).terfogat() == 27
+assert Kocka(3).felszin() == 54
 
 #11-------------------------------------------------------------
 # Feladat: String fájlba írása
 # Készíts függvényt string_fajlba néven, amely az első paraméterként kapott sztringet fájlba írja.
 # A fájl nevét második paraméterként kapja meg a függvény.
-
-
-#string_fajlba("csacska macska", "szoveg.txt"); assert open("szoveg.txt").read().strip() == "csacska macska"
+def string_fajlba(string, faljnev):
+    with open(faljnev, 'w') as falj:
+        falj.write(string)
+ 
+string_fajlba("csacska macska", "szoveg.txt"); assert open("szoveg.txt").read().strip() == "csacska macska"
 
 #12-------------------------------------------------------------
 # Feladat: Számtani sorozat fájlba írása
