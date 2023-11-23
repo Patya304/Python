@@ -21,4 +21,4 @@ def szamologep():
   st.success(f"A valasz = {ertek}")
 
 if st.button("Eredmény kiszámítása"):
-    calculate()
+    szamologep()
