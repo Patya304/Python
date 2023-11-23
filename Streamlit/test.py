@@ -1,7 +1,8 @@
 import streamlit as st
 
-bekeres1 = st.number_input(label="Szam1")
-bekeres2 = st.numoer_input(label="szam2")
+bekeres1 = st.number_input(label="Adj meg egy számot")
+ 
+bekeres2 = st.number_input(label="Adj meg egy másik számot")
 
 
 menu = st.radio("Menu",
