@@ -1,22 +1,21 @@
 import streamlit as st
  
-st.title("Calculator")
+st.title("Calculator App using Streamlit")
  
 # creates a horizontal line
 st.write("---")
-
-# adat1
-num1 = st.number_input(label="Adj megy egy számot")
  
-# adat2
-num2 = st.number_input(label="Adj meg még egy számot")
-
-
-st.write("Operátor")
+# input 1
+num1 = st.number_input(label="Adj meg egy számot")
  
-operation = st.radio("Menü:",
-                    ("Összeadás", "Kivonás", "Szorzás", "Osztás")
-
+# input 2
+num2 = st.number_input(label="Adj meg egy másik számot")
+ 
+st.write("Operation")
+ 
+operation = st.radio("Menu:",
+                    ("Összeadás", "Kivonás", "Szorzás", "Osztás"))
+ 
 ans = 0
  
 def calculate():
@@ -29,7 +28,10 @@ def calculate():
     elif operation=="Osztás" and num2!=0:
         ans = num1 / num2
     else:
-        st.warning("0-val való osztás hibája. Adjon meg egy nem nulla számot.")
-        ans = "Nem definiálható "
+        st.warning("0-val nem osztunk")
+        ans = "?????"
  
-    st.success(f"Megoldás = {ans}")
+    st.success(f"Valasz = {ans}")
+ 
+if st.button("Eredmény kiszámítása"):
+    calculate()
