@@ -11,7 +11,7 @@ num1 = st.number_input(label="Adj meg egy számot")
 # input 2
 num2 = st.number_input(label="Adj meg egy másik számot")
  
-st.write("Operation")
+st.write("Műveletek")
  
 operation = st.radio("Menu:",
                     ("Összeadás", "Kivonás", "Szorzás", "Osztás"))
