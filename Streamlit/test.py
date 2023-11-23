@@ -22,8 +22,6 @@ def calculate():
     else:
         st.warning("0-val nem osztunk")
         ertek = "?????"
-
-      st.success(f"Valasz = {ertek}")
- 
+     st.success(f"Valasz = {ertek}")
 if st.button("Eredmény kiszámítása"):
     calculate()
