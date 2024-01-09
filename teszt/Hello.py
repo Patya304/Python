@@ -1,66 +1,86 @@
 import sqlite3
-import streamlit as st 
+import streamlit as st
 
-
-def sql_letrehoz():
-    conn = sqlite3.connect("vevok.db")
-    c = conn.cursor()
-    sql = '''
-      SELECT name
-      FROM sqlite_master
-      WHERE type = 'table' AND name = 'vevok'
-      '''
-    c.execute(sql)
-    if not c.fetchone():
-        sql = '''
-        CREATE TABLE vevok (nev text, cim text , telefon text)
-        '''
-        c.execute(sql)
-    conn.commit()
-    conn.close()
-
-def sql_megtekint():
-    conn = sqlite3.connect("vevok.db")
-    c = conn.cursor()
-    sql = '''
-    SELECT * FROM vevok
-    '''
-    c.execute(sql)
-    vevok = c.fetchall()
-    conn.commit()
-    conn.close()
-    return vevok
-
-def sql_hozzaad(nev,cim,telefon):
-    conn = sqlite3.connect("vevok.db")
-    c = conn.cursor()
-    sql = '''
-    INSERT INTO vevok VALUES(?,?,?)
-    '''
-    c.execute(sql,(nev,cim,telefon))
-    conn.commit()
-    conn.close()
-
-sql_letrehoz()
-
-st.title("Vevők")
-malac = st.number_input('malac')
-nev = st.text_input("Név")
-cim = st.text_input("Cím")
-telefon = st.text_input("Telefon szám")
-
-if st.button("hozzáad"):
-    sql_hozzaad(nev,cim,telefon)
-
-if st.button("töröl"):
-    ...
-if st.button("aktualizál"):
-    ...
-if st.button("keres"):
-    ...
-if st.button("megjelenít"):
+def create_database():
     
-    table = sql_megtekint()
-    st.header("Vevők") 
-    st.write(table)
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+    c.execute("""
+    SELECT name FROM sqlite_master WHERE type='table' AND name='customers'
+    """)
+    if not c.fetchone():
+        c.execute('''CREATE TABLE customers
+                     (name text, address text, phone text)''')
+        conn.commit()
+    conn.close()
 
+def add_customer(name, address, phone):
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+    c.execute("INSERT INTO customers VALUES (?, ?, ?)", (name, address, phone))
+    conn.commit()
+    conn.close()
+
+def delete_customer(name):
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+    c.execute("DELETE FROM customers WHERE name=?", (name,))
+    conn.commit()
+    conn.close()
+
+def update_customer(name, address, phone):
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+    c.execute("UPDATE customers SET address = ?, phone = ? WHERE name = ?", (address, phone, name))
+    conn.commit()
+    conn.close()
+
+def view_customers():
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM customers")
+    customers = c.fetchall()
+    conn.close()
+    return customers
+
+def search_customer(name, phone):
+    conn = sqlite3.connect('customers.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM customers WHERE name=? OR phone=?", (name, phone))
+    customers = c.fetchall()
+    conn.close()
+    return customers
+
+
+def main():
+    st.title("Vevők adatbázis")
+    
+    
+    create_database()
+
+    name = st.text_input("Név")
+    address = st.text_input("Cím")
+    phone = st.text_input("Telefonszám")
+    st.sidebar.header("Válassz műveletet!")
+    if st.sidebar.button("Hozzáad"):
+        add_customer(name, address, phone)
+
+    if st.sidebar.button("Töröl"):
+        delete_customer(name)
+
+    if st.sidebar.button("Aktualizál"):
+        update_customer(name, address, phone)
+
+
+    if st.sidebar.button("Keres"):
+        customers = search_customer(name, phone)
+        st.header("Customers File")
+        st.table(customers)   
+
+    if st.sidebar.button("Megtekint"):
+        customers = view_customers()
+        st.header("Customers File")
+        st.table(customers)
+
+if __name__ == '__main__':
+    main()
