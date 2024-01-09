@@ -53,7 +53,7 @@ def search_customer(name, phone):
 
 
 def main():
-    st.title("Vevők adatbázis")
+    st.title("Jelszókezelő")
     
     
     create_database()
